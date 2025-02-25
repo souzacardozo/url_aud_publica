@@ -4,7 +4,7 @@ from flask_cors import CORS
 from service.despesaOrcadaPagaService import DespesaOrcadaPagaService
 from service.receitasOrcadasArrecadadasSevice import ReceitasOrcadasArrecadadasService
 from service.receitasPropriasArrecadadasSevice import ReceitasPropriasArrecadadasService
-
+from service.receitasOrcadasArrecadadasGraficosSevice import ReceitasOrcadasArrecadadasGraficosService
 
 app = Flask(__name__)
 CORS(app, resources={r"/api/*": {"origins": "*"}})
@@ -13,6 +13,7 @@ CORS(app, resources={r"/api/*": {"origins": "*"}})
 despesa_service = DespesaOrcadaPagaService()
 receitas_orcadas_service = ReceitasOrcadasArrecadadasService()
 receitas_proprias_service = ReceitasPropriasArrecadadasService()
+receitas_orcadas_Graficos_service = ReceitasOrcadasArrecadadasGraficosService()
 
 
 @app.route('/api/despesas', methods=['GET'])
@@ -55,6 +56,38 @@ def obter_receitasOrcadasArrecadadas():
 
     try:
         receitas = receitas_orcadas_service.obter_receitasOrcadasArrecadadas(entidades, idquadrimestres, ano)
+        return jsonify(receitas), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route('/api/receitasOrcadasArrecadadasGraficos', methods=['GET'])
+def obter_receitasOrcadasArrecadadasGraficos():
+    entidades = request.args.getlist('entidades', type=str) 
+    idquadrimestres = request.args.getlist('idquadrimestres', type=str)
+    ano = request.args.getlist('ano', type=int)
+
+
+    
+    print(f"Entidades: {entidades}")
+    print(f"ID Quadrimestres: {idquadrimestres}")
+    print(f"Ano: {ano}")
+
+    if not entidades:
+        return jsonify({"error": "entidades são obrigatórios"}), 400 
+
+    if not idquadrimestres:
+        return jsonify({"error": "idquadrimestres são obrigatórios"}), 400
+    if idquadrimestres == 1:
+        idquadrimestres = request.args.getlist('idquadrimestres', type=int)
+    else:
+        idquadrimestres = request.args.getlist('idquadrimestres', type=str)
+    
+    if not ano:
+        return jsonify({"error": "ano é obrigatório"}), 400
+
+    try:
+        receitas = receitas_orcadas_Graficos_service.obter_receitasOrcadasArrecadadasGraficos(entidades, idquadrimestres, ano)
         return jsonify(receitas), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
