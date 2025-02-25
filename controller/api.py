@@ -28,7 +28,7 @@ def obter_despesas():
 @app.route('/api/receitasOrcadasArrecadadas', methods=['GET'])
 def obter_receitasOrcadasArrecadadas():
     entidades = request.args.getlist('entidades', type=str)
-    idquadrimestres = request.args.getlist('idquadrimestres', type=int)
+    idquadrimestres = request.args.getlist('idquadrimestres', type=str)
     ano = request.args.getlist('ano', type=int)
 
 
