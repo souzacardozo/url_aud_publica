@@ -44,40 +44,9 @@ class ReceitasOrcadasArrecadadasGraficosRepository:
                                 AND idquadrimestre IN ({}) 
                                 AND nrano = {}
                         ORDER BY 1)valorgrafico
-                        GROUP BY dsclassificacaoreceita,valorTotal
-                        UNION ALL 
-                        SELECT '99 - total'::text dsclassificacaoreceita,
-                        sum(valorrealizados) AS valorrealizados,
-                        CEIl((sum(valorrealizado) / valorTotal) *100)::numeric(16,4)
-                        from(
-                    SELECT dsclassificacaoreceita,
-                        valorrealizado::numeric(16,6) AS valorrealizados,
-                        valorrealizado::numeric(16,6) AS valorrealizado,
-                        (SELECT sum(valorrealizado)::numeric(16,6) AS valortotal 
-                                FROM {}.aud_receita_orcada_realizada rt
-                                    WHERE cdentidade = 1
-                                    AND idquadrimestre IN ({})
-                                    AND dsclassificacaoreceita <> 'OUTRAS RECEITAS'
-                                    AND nrano = {} )::numeric(16,4) AS valorTotal
-                        from(        
-                    SELECT
-                                cdentidade AS cdentidade,            
-                                dsclassificacaoreceita::text AS dsclassificacaoreceita,
-                                idquadrimestre,
-                                nrano,
-                                valorrealizado AS valorrealizado,
-                                0 AS valorTotal,
-                                0 AS percentual
-                            FROM {}.aud_receita_orcada_realizada)valorRealizadoss
-                            WHERE cdentidade = 1
-                                AND idquadrimestre IN ({}) 
-                                AND nrano = {}
-                        ORDER BY 1)valorgrafico
                         GROUP BY dsclassificacaoreceita,valorTotal)graficoREceita
                         ORDER BY dsclassificacaoreceita
         """.format(entidades_str, idquadrimestres_str, ano_str,
-                   entidades_str, idquadrimestres_str, ano_str,
-                   entidades_str, idquadrimestres_str, ano_str,
                    entidades_str, idquadrimestres_str, ano_str)
         
 
