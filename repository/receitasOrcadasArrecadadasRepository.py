@@ -1,11 +1,11 @@
 from conexao.conexao import ConexaoClickhouse
-from model.receitasPrevistaArrecadada import ReceitaPrevistaArrecadada
+from model.receitasOrcadasArrecadadas import ReceitasOrcadasArrecadadas
 
-class ReceitasPrevistaArrecadadaRepository:
+class ReceitasOrcadasArrecadadasRepository:
     def __init__(self):
         self.conexao = ConexaoClickhouse()
         
-    def obter_receitasPrevistaArrecadada(self, idquadrimestres):
+    def obter_receitasOrcadasArrecadadas(self, idquadrimestres):
         query = """
                 SELECT dsclassificacaoreceita::text , 
                     replace(cast(cast(sum(valororcado) as numeric(16,4)) as text),'.',',') as valororcado,
@@ -21,6 +21,6 @@ class ReceitasPrevistaArrecadadaRepository:
 
         client = self.conexao.obter_cliente()
         resultado = client.query(query).result_rows
-        receitas = [ReceitaPrevistaArrecadada(r[0], r[1], r[2]) for r in resultado]
+        receitas = [ReceitasOrcadasArrecadadas(r[0], r[1], r[2]) for r in resultado]
         
         return receitas

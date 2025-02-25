@@ -1,4 +1,4 @@
-class ReceitaPrevistaArrecadada:
+class ReceitasPropriasArrecadadas:
     def __init__(self, dsclassificacaoreceita, valororcado, valorarrecadado):
         self.dsclassificacaoreceita = dsclassificacaoreceita
         self.valororcado = valororcado
