@@ -13,16 +13,23 @@ class ReceitasOrcadasArrecadadasRepository:
         ano_str = ','.join([str(x) for x in ano])
         
         query = """
-                SELECT dsclassificacaoreceita::text , 
-                    replace(cast(cast(sum(valororcado) as numeric(16,4)) as text),'.',',') as valororcado,
-                    replace(cast(cast(sum(valorrealizado) as numeric(16,4)) as text),'.',',') as valorrealizado  
-                from {}.aud_receita_orcada_realizada 
-                where cdentidade = 1
-                    and idquadrimestre in ({})
-                    and dsclassificacaoreceita <> 'OUTRAS RECEITAS' 
-                    and nrano = {}
-                GROUP BY dsclassificacaoreceita
-                order by dsclassificacaoreceita
+                SELECT  dsclassificacaoreceita,
+                        replace(CAST(CAST(sum(valororcado) AS numeric(16,4)) AS text),'.',',') AS valororcado,
+                        replace(CAST(CAST(sum(valorrealizado) AS numeric(16,4)) AS text),'.',',') AS valorrealizado,
+                        replace(CAST(CAST((sum(valororcados) / sum(valorrealizados)*100) AS numeric(16,4)) AS text),'.',',') AS realizado
+                    from(
+                    SELECT 
+                            dsclassificacaoreceita::text AS dsclassificacaoreceita,
+                            valororcado AS valororcado,
+                            valorrealizado AS valorrealizado,
+                            valororcado AS valororcados,
+                            valorrealizado AS valorrealizados
+                        FROM {}.aud_receita_orcada_realizada 
+                        WHERE cdentidade = 1
+                        AND idquadrimestre IN ({})
+                        AND dsclassificacaoreceita <> 'OUTRAS RECEITAS' 
+                        AND nrano = {} )receitas
+                    GROUP BY dsclassificacaoreceita
         """.format(entidades_str, idquadrimestres_str, ano_str)
         
         # Debugging the generated query
@@ -33,6 +40,6 @@ class ReceitasOrcadasArrecadadasRepository:
         resultado = client.query(query).result_rows
         
         # Process the results
-        receitas = [ReceitasOrcadasArrecadadas(r[0], r[1], r[2]) for r in resultado]
+        receitas = [ReceitasOrcadasArrecadadas(r[0], r[1], r[2], r[3]) for r in resultado]
 
         return receitas
