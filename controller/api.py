@@ -1,10 +1,13 @@
 from flask import Flask, jsonify, request
+from flask_cors import CORS
+
 from service.despesaOrcadaPagaService import DespesaOrcadaPagaService
 from service.receitasOrcadasArrecadadasSevice import ReceitasOrcadasArrecadadasService
 from service.receitasPropriasArrecadadasSevice import ReceitasPropriasArrecadadasService
 
 
 app = Flask(__name__)
+CORS(app, resources={r"/api/*": {"origins": "191.252.177.9"}})
 
 # Create separate instances of each service
 despesa_service = DespesaOrcadaPagaService()
