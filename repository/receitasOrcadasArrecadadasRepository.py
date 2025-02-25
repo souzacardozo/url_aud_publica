@@ -32,7 +32,7 @@ class ReceitasOrcadasArrecadadasRepository:
                                             AND nrano = {} )receitas
                                         GROUP BY dsclassificacaoreceita
                     union all                  
-                    SELECT  '99  - total 'dsclassificacaoreceita,
+                    SELECT  '99  - TOTAL 'dsclassificacaoreceita,
                                             replace(CAST(CAST(sum(valororcado) AS numeric(16,4)) AS text),'.',',') AS valororcado,
                                             replace(CAST(CAST(sum(valorrealizado) AS numeric(16,4)) AS text),'.',',') AS valorrealizado,
                                             replace(CAST(CAST((sum(valororcados) / sum(valorrealizados)*100) AS numeric(16,4)) AS text),'.',',') AS realizado
