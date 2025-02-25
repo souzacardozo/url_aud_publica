@@ -1,4 +1,4 @@
-from repository.receitasPropriasArrecadadasRepository import ReceitasPropriasArrecadadasRepository
+from repository.receitasOrcadasArrecadadasPropriasRepository import ReceitasPropriasArrecadadasRepository
 
 class ReceitasPropriasArrecadadasService:
     def __init__(self):

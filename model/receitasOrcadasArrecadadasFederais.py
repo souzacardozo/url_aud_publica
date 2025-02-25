@@ -1,4 +1,4 @@
-class ReceitasOrcadaArrecadadasFederais:
+class ReceitasOrcadasArrecadadasFederais:
     def __init__(self, dsclassificacaoreceita, valororcado, valorarrecadado):
         self.dsclassificacaoreceita = dsclassificacaoreceita
         self.valororcado = valororcado

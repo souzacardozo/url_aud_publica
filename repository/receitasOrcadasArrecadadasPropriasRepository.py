@@ -1,11 +1,11 @@
 from conexao.conexao import ConexaoClickhouse
-from model.receitasPropriasArrecadadas import ReceitasPropriasArrecadadas
+from model.receitasOrcadasArrecadadasProprios import ReceitasOrcadasArrecadadasProprios
 
-class ReceitasPropriasArrecadadasRepository:
+class ReceitasArrecadadasPropriosRepository:
     def __init__(self):
         self.conexao = ConexaoClickhouse() 
         
-    def obter_receitasPropriasArrecadadas(self, entidades, idquadrimestres, ano): 
+    def obter_receitasArrecadadasProprios(self, entidades, idquadrimestres, ano): 
 
     # Join the values in each list separately
         entidades_str = ','.join([str(x) for x in entidades])
@@ -33,7 +33,7 @@ class ReceitasPropriasArrecadadasRepository:
         resultado = client.query(query).result_rows
         
         # Process the results
-        receitas = [ReceitasPropriasArrecadadas(r[0], r[1], r[2]) for r in resultado]
+        receitas = [ReceitasOrcadasArrecadadasProprios(r[0], r[1], r[2]) for r in resultado]
 
         return receitas
 

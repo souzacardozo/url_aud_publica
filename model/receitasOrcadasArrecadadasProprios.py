@@ -1,12 +1,12 @@
-class ReceitasOrcadasArrecadadasEstaduais:
-    def __init__(self, dsclassificacaoreceita, valororcado, valorarrecadado):
+class ReceitasOrcadasArrecadadasProprios:
+    def __init__(self, dsclassificacaoreceita, valororcado, percentual):
         self.dsclassificacaoreceita = dsclassificacaoreceita
         self.valororcado = valororcado
-        self.valorarrecadado = valorarrecadado
+        self.percentual = percentual 
 
     def to_dict(self):
         return {
             "dsclassificacaoreceita": self.dsclassificacaoreceita,
             "valororcado": self.valororcado,
-            "valorarrecadado": self.valorarrecadado
+            "percentual": self.percentual
         }
