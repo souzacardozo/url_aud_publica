@@ -7,7 +7,7 @@ from service.receitasPropriasArrecadadasSevice import ReceitasPropriasArrecadada
 
 
 app = Flask(__name__)
-CORS(app, resources={r"/api/*": {"origins": "191.252.177.9"}})
+CORS(app, resources={r"/api/*": {"origins": "*"}})
 
 # Create separate instances of each service
 despesa_service = DespesaOrcadaPagaService()
