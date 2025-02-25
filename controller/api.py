@@ -27,12 +27,27 @@ def obter_despesas():
 
 @app.route('/api/receitasOrcadasArrecadadas', methods=['GET'])
 def obter_receitasOrcadasArrecadadas():
+    entidades = request.args.getlist('entidades', type=str)
     idquadrimestres = request.args.getlist('idquadrimestres', type=int)
+    ano = request.args.getlist('ano', type=int)
+
+
+    
+    print(f"Entidades: {entidades}")
+    print(f"ID Quadrimestres: {idquadrimestres}")
+    print(f"Ano: {ano}")
+
+    if not entidades:
+        return jsonify({"error": "entidades são obrigatórios"}), 400 
+
     if not idquadrimestres:
         return jsonify({"error": "idquadrimestres são obrigatórios"}), 400
+    
+    if not ano:
+        return jsonify({"error": "ano é obrigatório"}), 400
 
     try:
-        receitas = receitas_orcadas_service.obter_receitasOrcadasArrecadadas(idquadrimestres)
+        receitas = receitas_orcadas_service.obter_receitasOrcadasArrecadadas(entidades, idquadrimestres, ano)
         return jsonify(receitas), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500

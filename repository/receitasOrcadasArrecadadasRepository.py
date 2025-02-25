@@ -5,22 +5,34 @@ class ReceitasOrcadasArrecadadasRepository:
     def __init__(self):
         self.conexao = ConexaoClickhouse()
         
-    def obter_receitasOrcadasArrecadadas(self, idquadrimestres):
+    def obter_receitasOrcadasArrecadadas(self, entidades, idquadrimestres, ano): 
+
+    # Join the values in each list separately
+        entidades_str = ','.join([str(x) for x in entidades])
+        idquadrimestres_str = ','.join([str(x) for x in idquadrimestres])
+        ano_str = ','.join([str(x) for x in ano])
+        
         query = """
                 SELECT dsclassificacaoreceita::text , 
                     replace(cast(cast(sum(valororcado) as numeric(16,4)) as text),'.',',') as valororcado,
                     replace(cast(cast(sum(valorrealizado) as numeric(16,4)) as text),'.',',') as valorrealizado  
-                from terraboapm.aud_receita_orcada_realizada 
+                from {}.aud_receita_orcada_realizada 
                 where cdentidade = 1
                     and idquadrimestre in ({})
                     and dsclassificacaoreceita <> 'OUTRAS RECEITAS' 
-                    and nrano = 2024
+                    and nrano = {}
                 GROUP BY dsclassificacaoreceita
                 order by dsclassificacaoreceita
-        """.format(','.join([str(x) for x in idquadrimestres]))
+        """.format(entidades_str, idquadrimestres_str, ano_str)
+        
+        # Debugging the generated query
+        print("Generated SQL query: ", query)
 
+        # Execute the query
         client = self.conexao.obter_cliente()
         resultado = client.query(query).result_rows
-        receitas = [ReceitasOrcadasArrecadadas(r[0], r[1], r[2]) for r in resultado]
         
+        # Process the results
+        receitas = [ReceitasOrcadasArrecadadas(r[0], r[1], r[2]) for r in resultado]
+
         return receitas
