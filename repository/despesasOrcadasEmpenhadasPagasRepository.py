@@ -1,11 +1,11 @@
 from conexao.conexao import ConexaoClickhouse
-from model.despesaOrcadaEmpenhadaPaga import DespesaOrcadaEmpenhadaPaga
+from model.despesasOrcadasEmpenhadasPagas import DespesasOrcadasEmpenhadasPagas
 
-class DespesaOrcadaEmpenhadaPagaRepository:
+class DespesasOrcadasEmpenhadasPagasRepository:
     def __init__(self):
         self.conexao = ConexaoClickhouse()
 
-    def obter_despesaOrcadaEmpenhadaPagaRepository(self, entidades, idquadrimestres, ano): 
+    def obter_despesasOrcadasEmpenhadasPagasRepository(self, entidades, idquadrimestres, ano): 
 
     # Join the values in each list separately
         entidades_str = ','.join([str(x) for x in entidades])
@@ -35,7 +35,7 @@ class DespesaOrcadaEmpenhadaPagaRepository:
         resultado = client.query(query).result_rows
         
         # Process the results
-        despesas = [DespesaOrcadaEmpenhadaPaga(r[0], r[1], r[2]) for r in resultado]
+        despesas = [DespesasOrcadasEmpenhadasPagas(r[0], r[1], r[2]) for r in resultado]
 
         return despesas
 

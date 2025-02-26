@@ -9,7 +9,7 @@ from service.receitasOrcadasArrecadadasFederaisService import ReceitasOrcadasArr
 from service.receitasOrcadasArrecadadasFederaisGraficosService import ReceitasOrcadasArrecadadasFederaisGraficosService
 from service.receitasOrcadasArrecadadasEstaduaisService import ReceitasOrcadasArrecadadasEstaduaisService
 from service.receitasOrcadasArrecadadasEstaduaisGraficosService import ReceitasOrcadasArrecadadasEstaduaisGraficosService
-from service.despesaOrcadaEmpenhadaPagaService import DespesaOrcadaEmpenhadaPagaService
+from service.despesasOrcadasEmpenhadasPagasService import DespesasOrcadasEmpenhadasPagasService
 
 app = Flask(__name__)
 CORS(app, resources={r"/api/*": {"origins": "*"}})
@@ -23,7 +23,7 @@ receitas_orcadas_arrecadadas_federais_service = ReceitasOrcadasArrecadadasFedera
 receitas_orcadas_arrecadadas_federais_graficos_service = ReceitasOrcadasArrecadadasFederaisGraficosService()
 receitas_orcadas_arrecadadas_estaduais_service = ReceitasOrcadasArrecadadasEstaduaisService()
 receitas_orcadas_arrecadadas_estaduais_graficos_service = ReceitasOrcadasArrecadadasEstaduaisGraficosService()
-despesa_orcada_empenhada_paga_service = DespesaOrcadaEmpenhadaPagaService()
+despesas_orcadas_empenhadas_pagas_service = DespesasOrcadasEmpenhadasPagasService()
 
 
 @app.route('/api/receitasOrcadasArrecadadas', methods=['GET'])
@@ -283,7 +283,7 @@ def obter_receitasOrcadasArrecadadasFederaisGraficos():
     
 
 @app.route('/api/despesasOrcadaEmpenhadaPaga', methods=['GET'])
-def obter_despesasOrcadaEmpenhadaPaga():
+def obter_despesassOrcadasEmpenhadasPagas():
     entidades = request.args.getlist('entidades', type=str) 
     idquadrimestres = request.args.getlist('idquadrimestres', type=str)
     ano = request.args.getlist('ano', type=int)
@@ -308,7 +308,7 @@ def obter_despesasOrcadaEmpenhadaPaga():
         return jsonify({"error": "ano é obrigatório"}), 400
 
     try:
-        despesas = despesa_orcada_empenhada_paga_service.obter_despesaOrcadaEmpenhadaPagaService(entidades, idquadrimestres, ano)
+        despesas = despesas_orcadas_empenhadas_pagas_service.obter_despesasOrcadasEmpenhadasPagasService(entidades, idquadrimestres, ano)
         print(despesas)
         if not despesas:
            raise ValueError("Nenhuma despesa encontrada.")

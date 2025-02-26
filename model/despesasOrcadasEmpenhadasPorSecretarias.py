@@ -1,12 +1,12 @@
-class DespesaOrcadaEmpenhadaPaga:
-    def __init__(self, dsclassificacaodespesa, valororcado, valorpago):
+class DespesasOrcadasEmpenhadasPorSecretarias:
+    def __init__(self, dsclassificacaodespesa, valororcado, valorempenhado):
         self.dsclassificacaodespesa = dsclassificacaodespesa
         self.valororcado = valororcado
-        self.valorpago = valorpago
+        self.valorempenhado = valorempenhado
 
     def to_dict(self):
         return {
             "dsclassificacaodespesa": self.dsclassificacaodespesa,
             "valororcado": self.valororcado,
-            "valorpago": self.valorpago
+            "valorempenhado": self.valorempenhado
         }
