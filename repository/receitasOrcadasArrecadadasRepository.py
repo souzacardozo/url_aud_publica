@@ -61,6 +61,6 @@ class ReceitasOrcadasArrecadadasRepository:
         resultado = client.query(query).result_rows
         
         # Process the results
-        receitas = [ReceitasOrcadasArrecadadas(r[0], r[1], r[2], r[3]) for r in resultado]
+        receitas = [ReceitasOrcadasArrecadadas(r[0], r[1], r[2]) for r in resultado]
 
         return receitas

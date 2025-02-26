@@ -1,11 +1,11 @@
 from conexao.conexao import ConexaoClickhouse
 from model.receitasOrcadasArrecadadasProprios import ReceitasOrcadasArrecadadasProprios
 
-class ReceitasArrecadadasPropriosRepository:
+class ReceitasOrcadasArrecadadasPropriosRepository:
     def __init__(self):
         self.conexao = ConexaoClickhouse() 
         
-    def obter_receitasArrecadadasProprios(self, entidades, idquadrimestres, ano): 
+    def obter_receitasOrcadasArrecadadasProprios(self, entidades, idquadrimestres, ano): 
 
     # Join the values in each list separately
         entidades_str = ','.join([str(x) for x in entidades])

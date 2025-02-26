@@ -1,4 +1,4 @@
-class DespesaOrcadaPaga:
+class DespesaOrcadaEmpenhadaPaga:
     def __init__(self, dsclassificacaodespesa, valororcado, valorpago):
         self.dsclassificacaodespesa = dsclassificacaodespesa
         self.valororcado = valororcado
