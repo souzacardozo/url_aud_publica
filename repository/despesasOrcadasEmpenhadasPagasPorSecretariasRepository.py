@@ -1,11 +1,11 @@
 from conexao.conexao import ConexaoClickhouse
-from model.despesasOrcadasEmpenhadas import DespesasOrcadasEmpenhadas
+from model.despesasOrcadasEmpenhadasPagasPorSecretarias import DespesasOrcadasEmpenhadasPagasPorSecretarias
 
-class DespesasOrcadasEmpenhadasRepository:
+class DespesasOrcadasEmpenhadasPagasPorSecretariasRepository:
     def __init__(self):
         self.conexao = ConexaoClickhouse()
 
-    def obter_despesasOrcadasEmpenhadasRepository(self, entidades, idquadrimestres, ano): 
+    def obter_despesasOrcadasEmpenhadasPagasPorSecretariasRepository(self, entidades, idquadrimestres, ano): 
 
     # Join the values in each list separately
         entidades_str = ','.join([str(x) for x in entidades])
@@ -16,15 +16,16 @@ class DespesasOrcadasEmpenhadasRepository:
                 SELECT 
                     dsclassificacaodespesa, 
                     REPLACE(CAST(CAST(SUM(valororcado) AS NUMERIC(16,2)) AS TEXT), '.', ',') AS valororcado,
-                    REPLACE(CAST(CAST(SUM(valorrealizado) AS NUMERIC(16,2)) AS TEXT), '.', ',') AS valorrealizado
-                FROM {}.aud_despesa_orcada_empenhada
+                    REPLACE(CAST(CAST(SUM(valorpago) AS NUMERIC(16,2)) AS TEXT), '.', ',') AS valorpago
+                FROM {}.aud_despesa_orcada_paga_por_secretaria
                 WHERE cdentidade = 1
                     AND idquadrimestre IN ({})
                     AND nrano = {}
+                    and data_ano::numeric = {}
                     AND dsclassificacaodespesa <> 'OUTRAS DESPESAS'
                 GROUP BY dsclassificacaodespesa
                 ORDER BY dsclassificacaodespesa
-        """.format(entidades_str, idquadrimestres_str, ano_str)
+        """.format(entidades_str, idquadrimestres_str, ano_str, ano_str)
         
 
         # Debugging the generated query
@@ -35,7 +36,7 @@ class DespesasOrcadasEmpenhadasRepository:
         resultado = client.query(query).result_rows
         
         # Process the results
-        despesas = [DespesasOrcadasEmpenhadas(r[0], r[1], r[2]) for r in resultado]
+        despesas = [DespesasOrcadasEmpenhadasPagasPorSecretarias(r[0], r[1], r[2]) for r in resultado]
 
         return despesas
 

@@ -21,10 +21,11 @@ class DespesasOrcadasEmpenhadasPagasRepository:
                 WHERE cdentidade = 1
                     AND idquadrimestre IN ({})
                     AND nrano = {}
+                    and data_ano::numeric = {}
                     AND dsclassificacaodespesa <> 'OUTRAS DESPESAS'
                 GROUP BY dsclassificacaodespesa
                 ORDER BY dsclassificacaodespesa
-        """.format(entidades_str, idquadrimestres_str, ano_str)
+        """.format(entidades_str, idquadrimestres_str, ano_str, ano_str)
         
 
         # Debugging the generated query

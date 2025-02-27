@@ -1,11 +1,11 @@
 from conexao.conexao import ConexaoClickhouse
-from model.despesasOrcadasEmpenhadas import DespesasOrcadasEmpenhadas
+from model.despesasOrcadasEmpenhadasPorSecretarias import DespesasOrcadasEmpenhadasPorSecretarias
 
-class DespesasOrcadasEmpenhadasRepository:
+class DespesasOrcadasEmpenhadasPorSecretariasRepository:
     def __init__(self):
         self.conexao = ConexaoClickhouse()
 
-    def obter_despesasOrcadasEmpenhadasRepository(self, entidades, idquadrimestres, ano): 
+    def obter_despesasOrcadasEmpenhadasPorSecretariasRepository(self, entidades, idquadrimestres, ano): 
 
     # Join the values in each list separately
         entidades_str = ','.join([str(x) for x in entidades])
@@ -17,7 +17,7 @@ class DespesasOrcadasEmpenhadasRepository:
                     dsclassificacaodespesa, 
                     REPLACE(CAST(CAST(SUM(valororcado) AS NUMERIC(16,2)) AS TEXT), '.', ',') AS valororcado,
                     REPLACE(CAST(CAST(SUM(valorrealizado) AS NUMERIC(16,2)) AS TEXT), '.', ',') AS valorrealizado
-                FROM {}.aud_despesa_orcada_empenhada
+                FROM {}.aud_despesa_orcada_empenhada_por_secretaria
                 WHERE cdentidade = 1
                     AND idquadrimestre IN ({})
                     AND nrano = {}
@@ -35,7 +35,7 @@ class DespesasOrcadasEmpenhadasRepository:
         resultado = client.query(query).result_rows
         
         # Process the results
-        despesas = [DespesasOrcadasEmpenhadas(r[0], r[1], r[2]) for r in resultado]
+        despesas = [DespesasOrcadasEmpenhadasPorSecretarias(r[0], r[1], r[2]) for r in resultado]
 
         return despesas
 
