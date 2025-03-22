@@ -10,4 +10,3 @@ class ReceitasOrcadasArrecadadasProprios:
             "valororcado": self.valororcado,
             "valorarrecadado": self.valorarrecadado
         }
-

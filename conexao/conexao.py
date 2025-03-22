@@ -1,4 +1,5 @@
 from clickhouse_connect import get_client
+import psycopg2
 
 class ConexaoClickhouse:
     def __init__(self):
@@ -11,3 +12,4 @@ class ConexaoClickhouse:
     def obter_cliente(self):
         # Criação do cliente de conexão com ClickHouse
         return get_client(host=self.host, port=self.port, username=self.username, password=self.password, database=self.database)
+    

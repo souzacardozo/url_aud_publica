@@ -58,4 +58,3 @@ class DespesasOrcadasEmpenhadasPorSecretariasGraficosRepository:
         despesas = [DespesasOrcadasEmpenhadasPorSecretariasGraficos(r[0], r[1], r[2]) for r in resultado]
 
         return despesas
-
